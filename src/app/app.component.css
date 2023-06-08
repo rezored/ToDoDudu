@@ -1,0 +1,30 @@
+.tab-content {
+  margin: 0 !important;
+  border: 1px solid #ebebeb;
+  border-top: none;
+}
+
+.custom-list-group {
+  border: 1px solid #ebebeb;
+  padding: 20px;
+  height: 100vh;
+}
+.custom-list-group .custom-list-group-item {
+  border-bottom: 1px solid #ebebeb;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.custom-list-group-wrapper {
+  border: 1px solid #ebebeb;
+  list-style: none;
+}
+
+.view-wrapper {
+  padding: 20px;
+  height: 100vh;
+  overflow-y: auto;
+  border: 1px solid #ebebeb;
+}
+
+/*# sourceMappingURL=app.component.css.map */
