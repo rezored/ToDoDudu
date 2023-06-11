@@ -1,5 +1,5 @@
 {
-    "boards": [
+    "bugtracking": [
         {
             "id": "1",
             "name": "Common",
@@ -151,8 +151,20 @@
                             ]
                         }
                     ]
-                }   
+                }
             ]
+        },
+        {
+            "id": "12",
+            "name": "test",
+            "description": "Test string",
+            "lists": []
+        },
+        {
+            "id": "d12ws",
+            "name": "test",
+            "description": "Test string",
+            "lists": []
         }
     ]
 }

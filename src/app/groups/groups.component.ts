@@ -1,6 +1,6 @@
-import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from "@angular/router";
-import {BoardsService} from "../api/services/boards.service";
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from "@angular/router";
+import { BoardsService } from "../api/services/boards.service";
 
 @Component({
     selector: 'app-groups',
@@ -20,12 +20,16 @@ export class GroupsComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        if (this.activatedRoute.snapshot.paramMap.has('id')) {
-            this.currentBoardId = this.activatedRoute.snapshot.paramMap.get('id');
-        }
+        this.activatedRoute.paramMap.subscribe(params => {
+            this.currentBoardId = params.get('id');
+            if (this.boardsData) {
+                this.currentBoardData = this.boardsData.find((board: any) => board.id === this.currentBoardId);
+            }
+        });
+
         this.boardsService.getMockData().subscribe((data) => {
             this.boardsData = data.boards;
-            this.currentBoardData = this.boardsData.find((board: any) => board.id === this.currentBoardId);
+            this.currentBoardData = this.boardsData?.find((board: any) => board.id === this.currentBoardId);
             console.log(this.currentBoardData);
         });
     }
