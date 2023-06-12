@@ -4,5 +4,5 @@ export interface Group {
     "id": string,
     "name": string,
     "description": string,
-    "lists": Array<ListDTO | []>
+    "lists": Array<ListDTO>
 }

@@ -1,0 +1,60 @@
+	<div class="offcanvas-header">
+		<h4 class="offcanvas-title" id="offcanvas-basic-title">Groups data</h4>
+		<button type="button" class="btn-close" aria-label="Close" (click)="close()"></button>
+	</div>
+	<div class="offcanvas-body">
+		<form [formGroup]="addEditGroups" (ngSubmit)="onSubmit()">
+			<div class="mb-3">
+				<label for="groypName">Group name</label>
+				<div class="input-group">
+					<input
+						id="groypName"
+						name="groypName"
+						type="text"
+						class="form-control"
+						[class.is-invalid]="name.invalid && (name.dirty || name.touched)"
+						placeholder="Group name"
+						formControlName="name"
+						required
+					/>
+					<!--<app-form-control-error-handler
+						[control]="groypName"
+					></app-form-control-error-handler> --> 
+				</div>
+			</div>
+			<div class="mb-3">
+				<label for="groypDescription">Group description</label>
+				<div class="input-group">
+					<input
+						id="groypDescription"
+						name="groypName"
+						type="text"
+						class="form-control"
+						[class.is-invalid]="description.invalid && (description.dirty || description.touched)"
+						placeholder="Group description"
+						formControlName="description"
+						required
+					/>
+					<!--<app-form-control-error-handler
+						[control]="groypName"
+					></app-form-control-error-handler> --> 
+				</div>
+			</div>
+			<!--<div class="mb-3">
+				<label for="dateOfBirth">Date of birth</label>
+				<div class="input-group">
+					<input
+						id="dateOfBirth"
+						class="form-control"
+						placeholder="yyyy-mm-dd"
+						name="dp"
+						ngbDatepicker #dp="ngbDatepicker"
+					/>
+					<button class="btn btn-outline-secondary bi bi-calendar3" (click)="dp.toggle()" type="button"></button>
+				</div>
+			</div>-->
+			<div class="text-end">
+				<button type="submit" class="btn btn-outline-dark" >Save</button>
+			</div>
+		</form>
+	</div>

@@ -1,0 +1,49 @@
+<div class="side-menu-wrapper">
+    <h3>ToDoDudU</h3>
+    <hr>
+    <div class="custom-list-group">
+        <div class="custom-list-group-item d-flex justify-content-between align-items-center">
+            All
+            <span class="badge bg-primary rounded-pill">14</span>
+        </div>
+        <div class="custom-list-group-item d-flex justify-content-between align-items-center">
+            In progress
+            <span class="badge bg-primary rounded-pill">2</span>
+        </div>
+        <div class="custom-list-group-item d-flex justify-content-between align-items-center">
+            Done
+            <span class="badge bg-primary rounded-pill">1</span>
+        </div>
+        <div class="custom-list-group-item d-flex justify-content-between align-items-center">
+            Soon to expire
+            <span class="badge bg-primary rounded-pill">1</span>
+        </div>
+        <div class="custom-list-group-wrapper ">
+            <div class="outer-wrapper">
+                <div class="d-flex justify-content-between align-items-center" 
+                *ngFor="let group of boardsData"
+                style="border-bottom: 1px solid #ebebeb; padding: 5px 10px;">
+                    <div class="single-item-group">
+                        <fa-icon [icon]="faFolder" class="me-2"></fa-icon>
+                        <a routerLink="{{'board/' + group.id}}" routerLinkActive="active" ariaCurrentWhenActive="page">
+                            <span>{{ group.name }}</span>
+                        </a>
+                    </div>
+                    <div class="button-wrapper d-flex gap-1">
+                        <button class="btn btn-primary btn-sm" (click)="addEditGroup(group)">
+                            <fa-icon [icon]="faEdit"></fa-icon>
+                        </button>
+                        <button class="btn btn-primary btn-sm" (click)="deleteGroup(group)">
+                            <fa-icon [icon]="faTrash"></fa-icon>
+                        </button>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-between align-items-center" style="padding: 5px 10px;">
+                    <button class="btn btn-primary btn-sm w-100" (click)="addEditGroup()">
+                        <fa-icon [icon]="faAdd" class="me-2"></fa-icon>Add new group
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

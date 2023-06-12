@@ -4,19 +4,6 @@
     border-top: none;
 }
 
-
-.side-menu-wrapper {
-    border: 1px solid #ebebeb;
-    padding: 20px;
-    height: 100vh;
-
-    .custom-list-group-item {
-        border-bottom: 1px solid #ebebeb;
-        padding: 10px;
-        margin-bottom: 10px;
-    }
-}
-
 .custom-list-group-wrapper {
     border: 1px solid #ebebeb;
     list-style: none;
@@ -24,7 +11,7 @@
 
 .view-wrapper {
     padding: 20px;
-    height: 100vh;
+    height: 90vh;
     overflow-y: auto;
     border: 1px solid #ebebeb;
 }

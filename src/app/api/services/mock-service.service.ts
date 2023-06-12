@@ -6,11 +6,12 @@ import { Group } from '../models/groups';
 @Injectable({
     providedIn: 'root'
 })
-export class MockServiceService {
+export class MockService {
     baseurl = 'http://localhost:3000';
+
     constructor(
         private http: HttpClient
-    ) {}
+    ) { }
 
     ngOnInit(): void {
         this.GetIssues();
@@ -23,10 +24,10 @@ export class MockServiceService {
     };
 
     // POST
-    CreateBug(data: Group): Observable<Group> {
+    CreateGroup(data: Group): Observable<Group> {
         return this.http
             .post<Group>(
-                this.baseurl + '/bugtracking/',
+                this.baseurl + '/groups/',
                 JSON.stringify(data),
                 this.httpOptions
             )
@@ -35,16 +36,33 @@ export class MockServiceService {
     // GET
     GetIssue(id: string): Observable<Group> {
         return this.http
-            .get<Group>(this.baseurl + '/bugtracking/' + id)
+            .get<Group>(this.baseurl + '/groups/' + id)
             .pipe(retry(1), catchError(this.errorHandl));
     }
     // GET
     GetIssues(): Observable<Group> {
         return this.http
-            .get<Group>(this.baseurl + '/bugtracking')
+            .get<Group>(this.baseurl + '/groups')
             .pipe(retry(1), catchError(this.errorHandl));
     }
 
+    // PUT
+    UpdateGroup(id: string, data: Group): Observable<Group> {
+        return this.http
+            .put<Group>(
+                this.baseurl + '/groups/' + id,
+                JSON.stringify(data),
+                this.httpOptions
+            )
+            .pipe(retry(1), catchError(this.errorHandl));
+    }
+
+    // DELETE
+    DeleteGroup(id: string) {
+        return this.http
+            .delete<Group>(this.baseurl + '/groups/' + id, this.httpOptions)
+            .pipe(retry(1), catchError(this.errorHandl));
+    }
 
     // Error handling
     errorHandl(error: { error: { message: string; }; status: any; message: any; }) {

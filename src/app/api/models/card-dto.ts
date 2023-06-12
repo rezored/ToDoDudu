@@ -5,5 +5,6 @@ export interface Card {
     "name": string,
     "description": string,
     "dueDate": string,
+    "createdDate": string,
     "labels": Array<LabelDTO>,
 }

@@ -1,5 +1,15 @@
-<h3>{{currentBoardData?.name}}</h3>
-<h5>{{currentBoardData?.description}}</h5>
+<div class="d-flex justify-content-between">
+    <div class="group-description-wrapper">
+        <h3>{{currentBoardData?.name}}</h3>
+        <h5>{{currentBoardData?.description}}</h5>
+    </div>
+    <div>
+        <button type="button" class="btn btn-primary"
+            (click)="openAddTodoModal(content)">
+            <fa-icon [icon]="faPlus"></fa-icon> Add new ToDo
+        </button>
+    </div>
+</div>
 <hr>
 <div class="row">
     <div class="col-4" *ngFor="let listItems of currentBoardData?.lists">
@@ -10,17 +20,50 @@
         </div>
         <div class="card mb-2" *ngFor="let card of listItems.cards">
             <div class="card-body">
-                {{card.name}}
+                <strong>Name: </strong>{{card.name}}
                 <hr>
                 <div>
-                    <small>{{card.description}}</small><br>
-                    <small>{{card.dueDate}}</small>
+                    <small><strong>Description: </strong>{{card.description}}</small><br>
+                    <small><strong>Due date: </strong>{{card.dueDate}}</small>
+                </div>
+                <hr>
+                <div class="d-flex justify-content-end" *ngIf="listItems.id === '1'">
+                    <button class="btn btn-primary" (click)="startProgress(card)">Start Progress</button>
+                </div>
+                <div class="d-flex justify-content-end" *ngIf="listItems.id === '2'">
+                    <button class="btn btn-primary" (click)="completeProgress(card)">Done</button>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
+<ng-template #content let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title">Create Todo</h4>
+		<button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
 
-
-
+    </div>
+    <form [formGroup]="todoForm" (submit)="createTodo(); modal.dismiss()">
+        <div class="modal-body">
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" id="name" formControlName="name"
+                    class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="description">Description:</label>
+                <textarea id="description" formControlName="description"
+                    class="form-control" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="dueDate">Due Date:</label>
+                <input type="date" id="dueDate" formControlName="dueDate"
+                    class="form-control" required>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Create Todo</button>
+        </div>
+    </form>
+</ng-template>
