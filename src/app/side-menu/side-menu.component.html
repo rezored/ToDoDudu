@@ -3,20 +3,29 @@
     <hr>
     <div class="custom-list-group">
         <div class="custom-list-group-item d-flex justify-content-between align-items-center">
+            <a href="#" routerLink="/">
+                Home
+            </a>
+        </div>
+        <div class="custom-list-group-item d-flex justify-content-between align-items-center">
             All
-            <span class="badge bg-primary rounded-pill">14</span>
+            <span class="badge bg-primary rounded-pill">{{allCards}}</span>
+        </div>
+        <div class="custom-list-group-item d-flex justify-content-between align-items-center">
+            To Do
+            <span class="badge bg-primary rounded-pill">{{ toDoCards }}</span>
         </div>
         <div class="custom-list-group-item d-flex justify-content-between align-items-center">
             In progress
-            <span class="badge bg-primary rounded-pill">2</span>
+            <span class="badge bg-primary rounded-pill">{{ inProgressCards }}</span>
         </div>
         <div class="custom-list-group-item d-flex justify-content-between align-items-center">
             Done
-            <span class="badge bg-primary rounded-pill">1</span>
+            <span class="badge bg-primary rounded-pill">{{ doneCards }}</span>
         </div>
-        <div class="custom-list-group-item d-flex justify-content-between align-items-center">
+        <div class="custom-list-group-item d-flex justify-content-between align-items-center" title="expire within 3 days">
             Soon to expire
-            <span class="badge bg-primary rounded-pill">1</span>
+            <span class="badge bg-primary rounded-pill">{{ soonToExpireCards }}</span>
         </div>
         <div class="custom-list-group-wrapper ">
             <div class="outer-wrapper">

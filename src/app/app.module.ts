@@ -15,6 +15,11 @@ import { LoaderComponent } from './shared/loader/loader.component';
 import { FormControlErrorHandlerComponent } from './shared/form-control-error-handler/form-control-error-handler.component';
 import { ConfirmDeleteComponent } from './shared/confirm-delete/confirm-delete.component';
 
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { CalendarComponent } from './calendar-component/calendar-component.component';
+
 @NgModule({
     declarations: [
         AppComponent,
@@ -23,7 +28,8 @@ import { ConfirmDeleteComponent } from './shared/confirm-delete/confirm-delete.c
         SideMenuComponent,
         LoaderComponent,
         FormControlErrorHandlerComponent,
-        ConfirmDeleteComponent
+        ConfirmDeleteComponent,
+        CalendarComponent
     ],
     imports: [
         HttpClientModule,
@@ -39,7 +45,12 @@ import { ConfirmDeleteComponent } from './shared/confirm-delete/confirm-delete.c
         AppRoutingModule,
         RouterLink,
         RouterLinkActive,
-        NgbDatepickerModule
+        NgbDatepickerModule,
+        BrowserAnimationsModule,
+        CalendarModule.forRoot({
+            provide: DateAdapter,
+            useFactory: adapterFactory,
+        }),
     ],
     providers: [],
     bootstrap: [AppComponent]

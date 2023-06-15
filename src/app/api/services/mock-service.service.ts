@@ -14,7 +14,7 @@ export class MockService {
     ) { }
 
     ngOnInit(): void {
-        this.GetIssues();
+        this.GetGroups();
     }
 
     httpOptions = {
@@ -33,16 +33,16 @@ export class MockService {
             )
             .pipe(retry(1), catchError(this.errorHandl));
     }
-    // GET
-    GetIssue(id: string): Observable<Group> {
+    // GET BY ID
+    GetGroup(id: string): Observable<Group> {
         return this.http
             .get<Group>(this.baseurl + '/groups/' + id)
             .pipe(retry(1), catchError(this.errorHandl));
     }
     // GET
-    GetIssues(): Observable<Group> {
+    GetGroups(): Observable<Group[]> {
         return this.http
-            .get<Group>(this.baseurl + '/groups')
+            .get<Group[]>(this.baseurl + '/groups')
             .pipe(retry(1), catchError(this.errorHandl));
     }
 

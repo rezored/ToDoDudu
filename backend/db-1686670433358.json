@@ -1,0 +1,215 @@
+{
+  "groups": [
+    {
+      "id": "1",
+      "name": "Common",
+      "description": "Common board for all ToDos",
+      "lists": [
+        {
+          "id": "1",
+          "name": "To Do",
+          "cards": [
+            {
+              "id": "1",
+              "name": "Buy milk",
+              "description": "Buy milk from the store",
+              "dueDate": "2019-12-31T23:59:59.999Z",
+              "labels": [
+                {
+                  "id": "1",
+                  "name": "Urgent",
+                  "color": "red"
+                }
+              ]
+            },
+            {
+              "id": "2",
+              "name": "Buy bread",
+              "description": "Buy bread from the store",
+              "dueDate": "2019-12-31T23:59:59.999Z",
+              "labels": [
+                {
+                  "id": "2",
+                  "name": "Not urgent",
+                  "color": "green"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "2",
+          "name": "In Progress",
+          "cards": [
+            {
+              "id": "3",
+              "name": "Buy eggs",
+              "description": "Buy eggs from the store",
+              "dueDate": "2019-12-31T23:59:59.999Z",
+              "labels": [
+                {
+                  "id": "3",
+                  "name": "Urgent",
+                  "color": "red"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "3",
+          "name": "Done",
+          "cards": [
+            {
+              "id": "4",
+              "name": "Buy butter",
+              "description": "Buy butter from the store",
+              "dueDate": "2019-12-31T23:59:59.999Z",
+              "labels": [
+                {
+                  "id": "4",
+                  "name": "Not urgent",
+                  "color": "green"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "2",
+      "name": "Work",
+      "description": "Work board for all ToDos",
+      "lists": [
+        {
+          "id": "1",
+          "name": "To Do",
+          "cards": [
+            {
+              "id": "1",
+              "name": "Schedule a meeting",
+              "description": "Schedule a meeting with the team",
+              "dueDate": "2019-12-31T23:59:59.999Z",
+              "labels": [
+                {
+                  "id": "1",
+                  "name": "Urgent",
+                  "color": "red"
+                }
+              ]
+            },
+            {
+              "id": "2",
+              "name": "Prepare a presentation",
+              "description": "Prepare a presentation for the meeting",
+              "dueDate": "2019-12-31T23:59:59.999Z",
+              "labels": [
+                {
+                  "id": "2",
+                  "name": "Not urgent",
+                  "color": "green"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "2",
+          "name": "In Progress",
+          "cards": [
+            {
+              "id": "3",
+              "name": "Prepare a report",
+              "description": "Prepare a report for the meeting",
+              "dueDate": "2019-12-31T23:59:59.999Z",
+              "labels": [
+                {
+                  "id": "3",
+                  "name": "Urgent",
+                  "color": "red"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "3",
+          "name": "Done",
+          "cards": [
+            {
+              "id": "4",
+              "name": "Prepare a presentation",
+              "description": "Prepare a presentation for the meeting",
+              "dueDate": "2019-12-31T23:59:59.999Z",
+              "labels": [
+                {
+                  "id": "4",
+                  "name": "Not urgent",
+                  "color": "green"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Testing new group",
+      "description": "Testing new group description",
+      "lists": [
+        {
+          "id": "1",
+          "name": "To Do",
+          "cards": [
+            {
+              "id": "0.9736765301675303",
+              "name": "test 4",
+              "description": "test 4",
+              "dueDate": "2023-06-21",
+              "createdDate": "2023-06-12T19:47:04.507Z",
+              "labels": []
+            }
+          ]
+        },
+        {
+          "id": "2",
+          "name": "In Progress",
+          "cards": [
+            {
+              "id": "0.22790578466826772",
+              "name": "test 3",
+              "description": "test 3",
+              "dueDate": "2023-06-21",
+              "createdDate": "2023-06-12T19:46:58.832Z",
+              "labels": []
+            }
+          ]
+        },
+        {
+          "id": "3",
+          "name": "Done",
+          "cards": [
+            {
+              "id": "0.9373752501168842",
+              "name": "test",
+              "description": "test",
+              "dueDate": "2023-06-13",
+              "createdDate": "2023-06-12T19:38:14.950Z",
+              "labels": []
+            },
+            {
+              "id": "0.10308757269300073",
+              "name": "test 2",
+              "description": "test 2",
+              "dueDate": "2023-06-22",
+              "createdDate": "2023-06-12T19:45:53.303Z",
+              "labels": []
+            }
+          ]
+        }
+      ],
+      "id": "5CAkDrt"
+    }
+  ]
+}

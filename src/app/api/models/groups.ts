@@ -5,4 +5,4 @@ export interface Group {
     "name": string,
     "description": string,
     "lists": Array<ListDTO>
-}
+}[]

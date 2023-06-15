@@ -31,9 +31,9 @@
                             "src/assets"
                         ],
                         "styles": [
-                          "node_modules/bootstrap/dist/css/bootstrap.min.css",
-                          "node_modules/bootstrap/dist/css/bootstrap.css",
-                          "src/styles.css"
+                            "src/styles.css",
+                            "node_modules/bootstrap/dist/css/bootstrap.css",
+                            "node_modules/angular-calendar/css/angular-calendar.css"
                         ],
                         "scripts": []
                     },
@@ -104,6 +104,6 @@
         }
     },
     "cli": {
-      "analytics": "f020862e-b144-49d6-afd8-3f0e50264eb4"
+        "analytics": "f020862e-b144-49d6-afd8-3f0e50264eb4"
     }
 }

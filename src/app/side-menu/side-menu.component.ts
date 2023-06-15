@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { faAdd, faEdit, faFolder, faTrash } from "@fortawesome/free-solid-svg-icons";
-import { BoardsService } from '../api/services/boards.service';
 import { MockService } from '../api/services/mock-service.service';
 import { NgbModal, NgbOffcanvas, NgbOffcanvasRef, OffcanvasDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { Group } from '../api/models/groups';
 import { AddEditGroupsComponent } from './add-edit-groups/add-edit-groups.component';
 import { ConfirmDeleteComponent } from '../shared/confirm-delete/confirm-delete.component';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-side-menu',
@@ -18,23 +18,30 @@ export class SideMenuComponent {
     protected readonly faAdd = faAdd;
     protected readonly faTrash = faTrash;
 
-    active: any = 1;
-    boardsData: any;
-    availableBoardsArray: any = [];
+    boardsData: Group[] = [];
     closeResult: string = '';
-
+    // the following should be a property of an object
+    // but for the sake of simplicity, I will leave it like this
+    allCards: number = 0;
+    toDoCards: number = 0;
+    inProgressCards: number = 0;
+    doneCards: number = 0;
+    soonToExpireCards: number = 0;
+    
     constructor(
         private mockService: MockService,
         private offcanvasService: NgbOffcanvas,
         private modalService: NgbModal,
+        private router: Router
     ) { }
 
     ngOnInit(): void {
         this.getData();
+        this.populateBadgesInfo();
     }
 
     getData(): void {
-        this.mockService.GetIssues().subscribe((data) => {
+        this.mockService.GetGroups().subscribe((data) => {
             this.boardsData = data;
         });
     }
@@ -47,6 +54,7 @@ export class SideMenuComponent {
         offcanvasRef.closed.subscribe((response) => {
             if (response === 'success') {
                 this.getData();
+                this.router.navigate(['/']);
             }
         });
     }
@@ -72,5 +80,41 @@ export class SideMenuComponent {
         } else {
             return `with: ${reason}`;
         }
+    }
+
+    populateBadgesInfo(): void {
+        this.mockService.GetGroups().subscribe((data) => {            
+            let allGroups = data;
+
+            allGroups.forEach(group => {
+                group.lists.forEach(list => {
+                    // this is a very bad practice
+                    // in real world scenario, this should be done in the backend
+                    list.cards.forEach(card => {
+                        let today = new Date();
+                        let dueDate = new Date(card.dueDate);
+                        let diff = Math.abs(dueDate.getTime() - today.getTime());
+                        let diffDays = Math.ceil(diff / (1000 * 3600 * 24));
+                        if (diffDays <= 3) {
+                            this.soonToExpireCards++;
+                        }
+                    });
+                    // this is a very bad practice
+                    // in real world scenario, this should be done in the backend
+                    switch (list.name) {
+                        case "To Do":
+                          this.toDoCards += list.cards.length;
+                          break;
+                        case "In Progress":
+                          this.inProgressCards += list.cards.length;
+                          break;
+                        case "Done":
+                          this.doneCards += list.cards.length;
+                          break;
+                      }
+                      this.allCards += list.cards.length;
+                })
+            });      
+        })
     }
 }

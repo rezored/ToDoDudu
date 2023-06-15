@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from "@angular/router";
 import { MockService } from '../api/services/mock-service.service';
-import { faPlusSquare } from '@fortawesome/free-regular-svg-icons';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faPlay, faCheck, faTrash, faEllipsisV } from '@fortawesome/free-solid-svg-icons';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Card } from '../api/models/card-dto';
+import { CommonService } from '../api/services/common.service';
 
 @Component({
     selector: 'app-groups',
@@ -14,6 +14,10 @@ import { Card } from '../api/models/card-dto';
 })
 export class GroupsComponent implements OnInit {
     protected readonly faPlus = faPlus;
+    protected readonly faPlay = faPlay;
+    protected readonly faCheck = faCheck;
+    protected readonly faTrash = faTrash;
+    protected readonly faEllipsisV = faEllipsisV;
 
     todoForm!: FormGroup<any>;
     currentBoardId: any;
@@ -24,7 +28,8 @@ export class GroupsComponent implements OnInit {
         private activatedRoute: ActivatedRoute,
         private router: Router,
         private mockService: MockService,
-        private modalService: NgbModal
+        private modalService: NgbModal,
+        private commonService: CommonService
     ) { }
 
     ngOnInit(): void {
@@ -44,11 +49,9 @@ export class GroupsComponent implements OnInit {
     }
 
     populateBoardData(): void {
-        this.mockService.GetIssues().subscribe((data) => {
+        this.mockService.GetGroups().subscribe((data) => {
             this.boardsData = data;
             this.currentBoardData = this.boardsData?.find((board: any) => board.id === this.currentBoardId);
-            console.log(this.currentBoardData);
-
         });
     }
 
@@ -64,15 +67,17 @@ export class GroupsComponent implements OnInit {
     createTodo(): void {
         if (this.todoForm.valid) {
             const newTodo: Card = {
-                id: Math.random().toString(),
+                id: this.commonService.generateRandomString(),
                 name: this.todoForm.value.name,
                 description: this.todoForm.value.description,
                 dueDate: this.todoForm.value.dueDate,
-                createdDate: new Date().toISOString(),
+                createdDate: new Date(),
                 labels: []
             };
 
-            this.mockService.GetIssue(this.currentBoardData.id).subscribe((data) => {
+            // this is a mock service, so we need to get the data, update it and then send it back
+            // in a real world scenario, we would just send the new todo to the backend and it would be saved there
+            this.mockService.GetGroup(this.currentBoardData.id).subscribe((data) => {
                 data.lists[0].cards.push(newTodo)
                 this.mockService.UpdateGroup(this.currentBoardData.id, data).subscribe((data) => {
                     this.populateBoardData();
@@ -82,8 +87,10 @@ export class GroupsComponent implements OnInit {
         }
     }
 
+    // this is a mock service, so we need to get the data, update it and then send it back
+    // in a real world scenario, we would just use un update service to the backend and it would change the status of the todo
     startProgress(card: Card): void {
-        this.mockService.GetIssue(this.currentBoardData.id).subscribe((data) => {
+        this.mockService.GetGroup(this.currentBoardData.id).subscribe((data) => {
             data.lists[0].cards = data.lists[0].cards.filter((c: Card) => c.id !== card.id);
             data.lists[1].cards.push(card)
             this.mockService.UpdateGroup(this.currentBoardData.id, data).subscribe((data) => {
@@ -92,13 +99,42 @@ export class GroupsComponent implements OnInit {
         });
     }
 
+    // this is a mock service, so we need to get the data, update it and then send it back
+    // in a real world scenario, we would just use un update service to the backend and it would change the status of the todo
     completeProgress(card: Card): void {
-        this.mockService.GetIssue(this.currentBoardData.id).subscribe((data) => {
+        this.mockService.GetGroup(this.currentBoardData.id).subscribe((data) => {
             data.lists[1].cards = data.lists[1].cards.filter((c: Card) => c.id !== card.id);
             data.lists[2].cards.push(card)
             this.mockService.UpdateGroup(this.currentBoardData.id, data).subscribe((data) => {
                 this.populateBoardData();
             });
         });
+    }
+
+    // this is a mock service, so we need to get the data, update it and then send it back
+    // in a real world scenario, we would just use un update service to the backend and it would change the status of the todo
+    deleteCard(card: Card, listItem: any): void {
+        this.mockService.GetGroup(this.currentBoardData.id).subscribe((data) => {
+            // @ts-ignore
+            data.lists.find((l: any) => l.id === listItem.id)?.cards.splice(data.lists.find((l: any) => l.id === listItem.id)?.cards.findIndex((c: Card) => c.id === card.id));
+            this.mockService.UpdateGroup(this.currentBoardData.id, data).subscribe((data) => {
+                this.populateBoardData();
+            });
+        });
+    }
+
+    // this is a mock service, so we need to get the data, update it and then send it back
+    // in a real world scenario, we would just use un update service to the backend and it would change the status of the todo
+    editCard(card: Card, listItemID: number): void {
+        this.mockService.GetGroup(this.currentBoardData.id).subscribe((data) => {
+            data.lists[listItemID].cards = data.lists[listItemID].cards.filter((c: Card) => c.id !== card.id);
+            this.mockService.UpdateGroup(this.currentBoardData.id, data).subscribe((data) => {
+                this.populateBoardData();
+            });
+        });
+    }
+
+    expandCard(card: Card): void {
+        card.isExpanded = !card.isExpanded;
     }
 }
