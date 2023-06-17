@@ -1,7 +1,7 @@
 import { NgModule, OnInit } from '@angular/core';
 import { Routes, RouterModule, ActivatedRoute } from '@angular/router';
 import { GroupsComponent } from "./groups/groups.component"; // CLI imports router
-import { CalendarComponent } from './calendar-component/calendar-component.component';
+import { CalendarComponent } from './calendar/calendar-component.component';
 
 
 const routes: Routes = [

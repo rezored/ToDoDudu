@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
-import { faAdd, faEdit, faFolder, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faAdd, faEdit, faFolder, faTrash, faList } from "@fortawesome/free-solid-svg-icons";
 import { MockService } from '../api/services/mock.service';
 import { NgbModal, NgbOffcanvas, NgbOffcanvasRef, OffcanvasDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { GroupDTO } from '../api/models/group-dto';
 import { AddEditGroupsComponent } from './add-edit-groups/add-edit-groups.component';
 import { ConfirmDeleteComponent } from '../shared/confirm-delete/confirm-delete.component';
 import { Router } from '@angular/router';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
 @Component({
     selector: 'app-side-menu',
@@ -17,6 +18,7 @@ export class SideMenuComponent {
     protected readonly faEdit = faEdit;
     protected readonly faAdd = faAdd;
     protected readonly faTrash = faTrash;
+    protected readonly faList = faList;
 
     boardsData: GroupDTO[] = [];
     closeResult: string = '';
@@ -27,6 +29,30 @@ export class SideMenuComponent {
     inProgressCards: number = 0;
     doneCards: number = 0;
     soonToExpireCards: number = 0;
+
+    badgesObj = [
+        {
+            name: 'All',
+            icon: faList,
+            value: this.allCards,
+        },
+        {
+            name: 'To Do',
+            icon: faList,
+            value: this.toDoCards,
+        },
+        {
+            name: 'In Progress',
+            icon: faList,
+            value: this.inProgressCards,
+        },
+        {
+            name: 'Done',
+            icon: faList,
+            value: this.doneCards,
+        },
+    ]
+    updatedBadgesSubject: Subject<any[]> = new Subject<any[]>();
 
     constructor(
         private mockService: MockService,
@@ -65,10 +91,12 @@ export class SideMenuComponent {
             windowClass: 'modal-confirm-delete',
             backdrop: 'static'
         });
-        modalConfirmDelete.result.then(() => {
-            this.mockService.DeleteGroup(group.id).subscribe((data) => {
-                this.getData();
-            });
+        modalConfirmDelete.result.then((result) => {
+            if (result === 'confirm') {
+                this.mockService.DeleteGroup(group.id).subscribe((data) => {
+                    this.getData();
+                });
+            }
         });
     }
 
@@ -113,8 +141,11 @@ export class SideMenuComponent {
                             break;
                     }
                     this.allCards += list.cards.length;
+                    console.log(this.badgesObj);
+                    
                 })
             });
-        })
+            console.log(this.allCards);
+            this.updatedBadgesSubject.next(this.badgesObj);})
     }
 }

@@ -43,7 +43,6 @@
                                 </button>
                             </div>
                         </div>
-
                     </span>
                 </div>
             </div>
@@ -55,7 +54,6 @@
                         <small><strong>Description: </strong>{{card.description}}</small>
                     </span>
                 </div>
-
             </div>
             <div class="card-footer">
                 <div class="d-flex justify-content-end"
@@ -80,12 +78,11 @@
 </div>
 
 <ng-template #content let-modal>
-    <div class="modal-header">
+    <header class="modal-header">
         <h4 class="modal-title">Create Todo</h4>
         <button type="button" class="btn-close" aria-label="Close"
             (click)="modal.dismiss('Cross click')"></button>
-
-    </div>
+    </header>
     <form [formGroup]="todoForm" (submit)="createTodo(); modal.dismiss()">
         <div class="modal-body">
             <div class="form-group">
@@ -104,8 +101,8 @@
                     class="form-control" required>
             </div>
         </div>
-        <div class="modal-footer">
+        <footer class="modal-footer">
             <button type="submit" class="btn btn-primary">Create Todo</button>
-        </div>
+        </footer>
     </form>
 </ng-template>

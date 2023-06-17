@@ -9,3 +9,14 @@
         margin-bottom: 10px;
     }
 }
+
+.custom-badges-wrapper {
+    fa-icon {
+        font-size: 2rem;
+    }
+
+    .badge {
+        top: 0;
+        right: -10px;
+    }
+}
