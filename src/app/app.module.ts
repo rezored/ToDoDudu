@@ -11,8 +11,6 @@ import { HttpClientModule } from "@angular/common/http";
 import { AddEditGroupsComponent } from './side-menu/add-edit-groups/add-edit-groups.component';
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SideMenuComponent } from './side-menu/side-menu.component';
-import { LoaderComponent } from './shared/loader/loader.component';
-import { FormControlErrorHandlerComponent } from './shared/form-control-error-handler/form-control-error-handler.component';
 import { ConfirmDeleteComponent } from './shared/confirm-delete/confirm-delete.component';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -26,8 +24,6 @@ import { CalendarComponent } from './calendar-component/calendar-component.compo
         GroupsComponent,
         AddEditGroupsComponent,
         SideMenuComponent,
-        LoaderComponent,
-        FormControlErrorHandlerComponent,
         ConfirmDeleteComponent,
         CalendarComponent
     ],

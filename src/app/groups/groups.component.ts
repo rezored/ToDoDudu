@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from "@angular/router";
-import { MockService } from '../api/services/mock-service.service';
+import { MockService } from '../api/services/mock.service';
 import { faPlus, faPlay, faCheck, faTrash, faEllipsisV } from '@fortawesome/free-solid-svg-icons';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormControl, FormGroup, Validators } from '@angular/forms';

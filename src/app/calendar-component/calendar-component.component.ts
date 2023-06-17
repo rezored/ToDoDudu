@@ -24,8 +24,8 @@ import {
     CalendarView,
 } from 'angular-calendar';
 import { EventColor } from 'calendar-utils';
-import { MockService } from '../api/services/mock-service.service';
-import { Group } from '../api/models/groups';
+import { MockService } from '../api/services/mock.service';
+import { GroupDTO } from '../api/models/group-dto';
 
 const colors: Record<string, EventColor> = {
     red: {
@@ -60,25 +60,28 @@ export class CalendarComponent {
         private mockService: MockService
     ) { }
 
-start: Date = subDays(startOfDay(new Date()), 1);
-end: Date = new Date();
+    start: Date = subDays(startOfDay(new Date()), 1);
+    end: Date = new Date();
 
-// set a random color from the colors object
-getColor(): EventColor {
-    const colorsKeyArray = Object.keys(colors);
-    const randomColorsKey = colorsKeyArray[Math.floor(Math.random() * colorsKeyArray.length)];
-    return colors[randomColorsKey];
-}
+    // make an array that will return a specific color for each type of card 
+    
+
+    // set a random color from the colors object
+    getColor(): EventColor {
+        const colorsKeyArray = Object.keys(colors);
+        const randomColorsKey = colorsKeyArray[Math.floor(Math.random() * colorsKeyArray.length)];
+        return colors[randomColorsKey];
+    }
 
     ngOnInit() {
-        this.mockService.GetGroups().subscribe((data: Group[]) => {
+        this.mockService.GetGroups().subscribe((data: GroupDTO[]) => {
             data.forEach((board: any) => {
                 board.lists.forEach((list: any) => {
                     list.cards.forEach((card: any) => {
                         this.events.push({
                             start: parseISO(card.createdDate),
                             end: parseISO(card.dueDate),
-                            title: card.name,
+                            title: `${list.name} - ${card.name}`,
                             color: this.getColor(),
                             actions: this.actions,
                             allDay: true,
@@ -106,7 +109,7 @@ getColor(): EventColor {
             });
             this.refresh.next();
         });
-        
+
     }
 
     populateData() {

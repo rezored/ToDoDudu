@@ -1,10 +1,10 @@
 import { Component, Input, Output } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveOffcanvas } from '@ng-bootstrap/ng-bootstrap';
-import { Group } from 'src/app/api/models/groups';
+import { GroupDTO } from 'src/app/api/models/group-dto';
 import { ListDTO } from 'src/app/api/models/list-dto';
 import { CommonService } from 'src/app/api/services/common.service';
-import { MockService } from 'src/app/api/services/mock-service.service';
+import { MockService } from 'src/app/api/services/mock.service';
 
 @Component({
     selector: 'app-add-edit-groups',
@@ -12,7 +12,7 @@ import { MockService } from 'src/app/api/services/mock-service.service';
     styleUrls: ['./add-edit-groups.component.scss']
 })
 export class AddEditGroupsComponent {
-    @Input() groupToBeEdited!: Group;
+    @Input() groupToBeEdited!: GroupDTO;
     @Input() action!: string;
 
     @Output() reloadGroups!: Function;
@@ -37,7 +37,7 @@ export class AddEditGroupsComponent {
             "cards": []
         }
     ];
-    
+
     constructor(
         private mockService: MockService,
         private activeOffcanvas: NgbActiveOffcanvas,
@@ -62,7 +62,7 @@ export class AddEditGroupsComponent {
     }
 
     get description() {
-        return this.addEditGroups.get('name') as FormControl;
+        return this.addEditGroups.get('description') as FormControl;
     }
 
     private createForm() {
@@ -78,12 +78,12 @@ export class AddEditGroupsComponent {
         const valueArray = this.addEditGroups.get('lists') as FormArray;
         if (values) {
             valueArray.clear();
-            values.forEach((value: any) => {               
+            values.forEach((value: any) => {
                 valueArray.push(new FormControl(value.name, Validators.required));
             })
         } else {
             this.listControls = valueArray.controls;
-            
+
         }
     }
 

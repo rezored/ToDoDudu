@@ -16,4 +16,7 @@ export class ConfirmDeleteComponent {
   onConfirm(): void {
       this.activeModal.close("success");
   }
+  onCancel(): void {
+      this.activeModal.close("success");
+  }
 }

@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { faAdd, faEdit, faFolder, faTrash } from "@fortawesome/free-solid-svg-icons";
-import { MockService } from '../api/services/mock-service.service';
+import { MockService } from '../api/services/mock.service';
 import { NgbModal, NgbOffcanvas, NgbOffcanvasRef, OffcanvasDismissReasons } from '@ng-bootstrap/ng-bootstrap';
-import { Group } from '../api/models/groups';
+import { GroupDTO } from '../api/models/group-dto';
 import { AddEditGroupsComponent } from './add-edit-groups/add-edit-groups.component';
 import { ConfirmDeleteComponent } from '../shared/confirm-delete/confirm-delete.component';
 import { Router } from '@angular/router';
@@ -18,7 +18,7 @@ export class SideMenuComponent {
     protected readonly faAdd = faAdd;
     protected readonly faTrash = faTrash;
 
-    boardsData: Group[] = [];
+    boardsData: GroupDTO[] = [];
     closeResult: string = '';
     // the following should be a property of an object
     // but for the sake of simplicity, I will leave it like this
@@ -27,7 +27,7 @@ export class SideMenuComponent {
     inProgressCards: number = 0;
     doneCards: number = 0;
     soonToExpireCards: number = 0;
-    
+
     constructor(
         private mockService: MockService,
         private offcanvasService: NgbOffcanvas,
@@ -46,7 +46,7 @@ export class SideMenuComponent {
         });
     }
 
-    addEditGroup(group?: Group): void {
+    addEditGroup(group?: GroupDTO): void {
         let offcanvasRef: NgbOffcanvasRef = this.offcanvasService.open(AddEditGroupsComponent, { ariaLabelledBy: 'offcanvas-add-group' });
         offcanvasRef.componentInstance.groupToBeEdited = group;
         offcanvasRef.componentInstance.action = group ? 'edit' : 'add';
@@ -59,7 +59,7 @@ export class SideMenuComponent {
         });
     }
 
-    deleteGroup(group: Group): void {
+    deleteGroup(group: GroupDTO): void {
         const modalConfirmDelete = this.modalService.open(ConfirmDeleteComponent, {
             size: 'md',
             windowClass: 'modal-confirm-delete',
@@ -83,7 +83,7 @@ export class SideMenuComponent {
     }
 
     populateBadgesInfo(): void {
-        this.mockService.GetGroups().subscribe((data) => {            
+        this.mockService.GetGroups().subscribe((data) => {
             let allGroups = data;
 
             allGroups.forEach(group => {
@@ -103,18 +103,18 @@ export class SideMenuComponent {
                     // in real world scenario, this should be done in the backend
                     switch (list.name) {
                         case "To Do":
-                          this.toDoCards += list.cards.length;
-                          break;
+                            this.toDoCards += list.cards.length;
+                            break;
                         case "In Progress":
-                          this.inProgressCards += list.cards.length;
-                          break;
+                            this.inProgressCards += list.cards.length;
+                            break;
                         case "Done":
-                          this.doneCards += list.cards.length;
-                          break;
-                      }
-                      this.allCards += list.cards.length;
+                            this.doneCards += list.cards.length;
+                            break;
+                    }
+                    this.allCards += list.cards.length;
                 })
-            });      
+            });
         })
     }
 }

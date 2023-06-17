@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, retry, throwError } from 'rxjs';
-import { Group } from '../models/groups';
+import { GroupDTO } from '../models/group-dto';
 
 @Injectable({
     providedIn: 'root'
@@ -24,48 +24,48 @@ export class MockService {
     };
 
     // POST
-    CreateGroup(data: Group): Observable<Group> {
+    CreateGroup(data: GroupDTO): Observable<GroupDTO> {
         return this.http
-            .post<Group>(
+            .post<GroupDTO>(
                 this.baseurl + '/groups/',
                 JSON.stringify(data),
                 this.httpOptions
             )
-            .pipe(retry(1), catchError(this.errorHandl));
+            .pipe(retry(1), catchError(this.errorHandler));
     }
     // GET BY ID
-    GetGroup(id: string): Observable<Group> {
+    GetGroup(id: string): Observable<GroupDTO> {
         return this.http
-            .get<Group>(this.baseurl + '/groups/' + id)
-            .pipe(retry(1), catchError(this.errorHandl));
+            .get<GroupDTO>(this.baseurl + '/groups/' + id)
+            .pipe(retry(1), catchError(this.errorHandler));
     }
     // GET
-    GetGroups(): Observable<Group[]> {
+    GetGroups(): Observable<GroupDTO[]> {
         return this.http
-            .get<Group[]>(this.baseurl + '/groups')
-            .pipe(retry(1), catchError(this.errorHandl));
+            .get<GroupDTO[]>(this.baseurl + '/groups')
+            .pipe(retry(1), catchError(this.errorHandler));
     }
 
     // PUT
-    UpdateGroup(id: string, data: Group): Observable<Group> {
+    UpdateGroup(id: string, data: GroupDTO): Observable<GroupDTO> {
         return this.http
-            .put<Group>(
+            .put<GroupDTO>(
                 this.baseurl + '/groups/' + id,
                 JSON.stringify(data),
                 this.httpOptions
             )
-            .pipe(retry(1), catchError(this.errorHandl));
+            .pipe(retry(1), catchError(this.errorHandler));
     }
 
     // DELETE
     DeleteGroup(id: string) {
         return this.http
-            .delete<Group>(this.baseurl + '/groups/' + id, this.httpOptions)
-            .pipe(retry(1), catchError(this.errorHandl));
+            .delete<GroupDTO>(this.baseurl + '/groups/' + id, this.httpOptions)
+            .pipe(retry(1), catchError(this.errorHandler));
     }
 
     // Error handling
-    errorHandl(error: { error: { message: string; }; status: any; message: any; }) {
+    errorHandler(error: { error: { message: string; }; status: any; message: any; }) {
         let errorMessage = '';
         if (error.error instanceof ErrorEvent) {
             // Get client-side error

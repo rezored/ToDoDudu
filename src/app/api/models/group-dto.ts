@@ -1,6 +1,6 @@
 import { ListDTO } from "./list-dto";
 
-export interface Group {
+export interface GroupDTO {
     "id": string,
     "name": string,
     "description": string,

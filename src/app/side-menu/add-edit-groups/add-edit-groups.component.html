@@ -5,11 +5,11 @@
 <div class="offcanvas-body">
 	<form [formGroup]="addEditGroups" (ngSubmit)="onSubmit()">
 		<div class="mb-3">
-			<label for="groypName">Group name</label>
+			<label for="name">Group name</label>
 			<div class="input-group">
 				<input
-					id="groypName"
-					name="groypName"
+					id="name"
+					name="name"
 					type="text"
 					class="form-control"
 					[class.is-invalid]="name.invalid && (name.dirty || name.touched)"
@@ -22,15 +22,15 @@
 			</div>
 		</div>
 		<div class="mb-3">
-			<label for="groypDescription">Group description</label>
+			<label for="description">Group description</label>
 			<div class="input-group">
 				<input
 					id="groypDescription"
-					name="groypName"
+					name="description"
 					type="text"
 					class="form-control"
 					[class.is-invalid]="description.invalid && (description.dirty || description.touched)"
-					placeholder="Group description"
+					placeholder="GroupDTO description"
 					formControlName="description"
 					required />
 				<!--<app-form-control-error-handler
@@ -50,9 +50,11 @@
 						[formControlName]="i"
 						required />
 				</span>
-				<button type="button" class="btn btn-outline-dark" (click)="removeClaimValue(i)">-</button>
+				<button type="button" class="btn btn-outline-dark"
+					(click)="removeClaimValue(i)">-</button>
 			</div>
-			<button type="button" class="btn custom-button w-100" (click)="addClaimValue()">+ Добави нова стойност</button>
+			<button type="button" class="btn custom-button w-100"
+				(click)="addClaimValue()">+ Добави нова стойност</button>
 		</div>
 		<div class="text-end">
 			<button type="submit" class="btn btn-outline-dark">Save</button>

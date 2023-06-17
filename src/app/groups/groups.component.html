@@ -35,18 +35,10 @@
                                 style="min-width: 100px;"
                                 aria-labelledby="dropdownBasic1">
                                 <button ngbDropdownItem>
-
                                     <span (click)="deleteCard(card, listItems)"
                                         style="cursor: pointer;">
                                         <fa-icon [icon]="faTrash"></fa-icon>
                                         Delete
-                                    </span>
-                                </button>
-                                <button ngbDropdownItem disabled="">
-                                    <span (click)="editCard(card, listItems.id)"
-                                        style="cursor: pointer;">
-                                        <fa-icon [icon]="faTrash"></fa-icon>
-                                        Edit
                                     </span>
                                 </button>
                             </div>
