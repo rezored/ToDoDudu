@@ -20,3 +20,7 @@ On the side menu:
 - the home calendar - the option to add/edit task 
 - task - have a grief - Urgent / Not urgent with a color palette
 - overall design :)
+
+# What is comming next
+- API
+- total components rework to remove the ts and use the API response code 
