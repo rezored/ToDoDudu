@@ -1,5 +1,15 @@
 import { Component } from '@angular/core';
-import { faAdd, faEdit, faFolder, faTrash, faList } from "@fortawesome/free-solid-svg-icons";
+import {
+    faAdd, 
+    faEdit, 
+    faFolder, 
+    faTrash, 
+    faList, 
+    faClipboardList,
+    faClipboard,
+    faClipboardCheck,
+    faTriangleExclamation
+} from "@fortawesome/free-solid-svg-icons";
 import { MockService } from '../api/services/mock.service';
 import { NgbModal, NgbOffcanvas, NgbOffcanvasRef, OffcanvasDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { GroupDTO } from '../api/models/group-dto';
@@ -19,6 +29,10 @@ export class SideMenuComponent {
     protected readonly faAdd = faAdd;
     protected readonly faTrash = faTrash;
     protected readonly faList = faList;
+    protected readonly faClipboardList = faClipboardList;
+    protected readonly faClipboard = faClipboard;
+    protected readonly faClipboardCheck = faClipboardCheck;
+    protected readonly faTriangleExclamation = faTriangleExclamation;
 
     boardsData: GroupDTO[] = [];
     closeResult: string = '';
@@ -29,30 +43,6 @@ export class SideMenuComponent {
     inProgressCards: number = 0;
     doneCards: number = 0;
     soonToExpireCards: number = 0;
-
-    badgesObj = [
-        {
-            name: 'All',
-            icon: faList,
-            value: this.allCards,
-        },
-        {
-            name: 'To Do',
-            icon: faList,
-            value: this.toDoCards,
-        },
-        {
-            name: 'In Progress',
-            icon: faList,
-            value: this.inProgressCards,
-        },
-        {
-            name: 'Done',
-            icon: faList,
-            value: this.doneCards,
-        },
-    ]
-    updatedBadgesSubject: Subject<any[]> = new Subject<any[]>();
 
     constructor(
         private mockService: MockService,
@@ -114,19 +104,23 @@ export class SideMenuComponent {
         this.mockService.GetGroups().subscribe((data) => {
             let allGroups = data;
 
+            // in real world scenario, this should be done in the backend
+            // and the data would be sorted by some time slice (for example, by day, month, year, etc.)
             allGroups.forEach(group => {
                 group.lists.forEach(list => {
                     // this is a very bad practice
                     // in real world scenario, this should be done in the backend
                     list.cards.forEach(card => {
+                        let cardDate = new Date(card.dueDate);
                         let today = new Date();
-                        let dueDate = new Date(card.dueDate);
-                        let diff = Math.abs(dueDate.getTime() - today.getTime());
-                        let diffDays = Math.ceil(diff / (1000 * 3600 * 24));
-                        if (diffDays <= 3) {
-                            this.soonToExpireCards++;
+                        let threeDaysFromNow = new Date();
+                        threeDaysFromNow.setDate(today.getDate() + 3);
+                  
+                        if (cardDate >= today && cardDate <= threeDaysFromNow) {
+                          this.soonToExpireCards++;
                         }
                     });
+
                     // this is a very bad practice
                     // in real world scenario, this should be done in the backend
                     switch (list.name) {
@@ -141,11 +135,9 @@ export class SideMenuComponent {
                             break;
                     }
                     this.allCards += list.cards.length;
-                    console.log(this.badgesObj);
-                    
+
                 })
             });
-            console.log(this.allCards);
-            this.updatedBadgesSubject.next(this.badgesObj);})
+        })
     }
 }

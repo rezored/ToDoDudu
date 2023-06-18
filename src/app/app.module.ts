@@ -9,7 +9,7 @@ import { GroupsComponent } from './groups/groups.component';
 import { AppRoutingModule } from "./app-routing.module";
 import { HttpClientModule } from "@angular/common/http";
 import { AddEditGroupsComponent } from './side-menu/add-edit-groups/add-edit-groups.component';
-import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SideMenuComponent } from './side-menu/side-menu.component';
 import { ConfirmDeleteComponent } from './shared/confirm-delete/confirm-delete.component';
 
@@ -17,6 +17,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { CalendarComponent } from './calendar/calendar-component.component';
+import { FormControlErrorHandlerComponent } from './shared/form-control-error-handler/form-control-error-handler.component';
 
 @NgModule({
     declarations: [
@@ -25,7 +26,8 @@ import { CalendarComponent } from './calendar/calendar-component.component';
         AddEditGroupsComponent,
         SideMenuComponent,
         ConfirmDeleteComponent,
-        CalendarComponent
+        CalendarComponent,
+        FormControlErrorHandlerComponent
     ],
     imports: [
         HttpClientModule,

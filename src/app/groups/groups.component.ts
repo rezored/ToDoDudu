@@ -21,7 +21,7 @@ export class GroupsComponent implements OnInit {
 
     todoForm!: FormGroup<any>;
     currentBoardId: any;
-    currentBoardData: any;
+    currentGroupData: any;
     boardsData: any;
 
     constructor(
@@ -48,10 +48,22 @@ export class GroupsComponent implements OnInit {
         });
     }
 
+    get name() {
+        return this.todoForm.get('name') as FormControl;
+    }
+
+    get description() {
+        return this.todoForm.get('description') as FormControl;
+    }
+
+    get dueDate() {
+        return this.todoForm.get('dueDate') as FormControl;
+    }
+
     populateBoardData(): void {
         this.mockService.GetGroups().subscribe((data) => {
             this.boardsData = data;
-            this.currentBoardData = this.boardsData?.find((board: any) => board.id === this.currentBoardId);
+            this.currentGroupData = this.boardsData?.find((board: any) => board.id === this.currentBoardId);
         });
     }
 
@@ -65,6 +77,10 @@ export class GroupsComponent implements OnInit {
     }
 
     createTodo(): void {
+        if (this.todoForm.invalid) {
+            this.markFormGroupAsTouched(this.todoForm);
+            return;
+        }
         if (this.todoForm.valid) {
             const newTodo: Card = {
                 id: this.commonService.generateRandomString(),
@@ -77,9 +93,9 @@ export class GroupsComponent implements OnInit {
 
             // this is a mock service, so we need to get the data, update it and then send it back
             // in a real world scenario, we would just send the new todo to the backend and it would be saved there
-            this.mockService.GetGroup(this.currentBoardData.id).subscribe((data) => {
+            this.mockService.GetGroup(this.currentGroupData.id).subscribe((data) => {
                 data.lists[0].cards.push(newTodo)
-                this.mockService.UpdateGroup(this.currentBoardData.id, data).subscribe((data) => {
+                this.mockService.UpdateGroup(this.currentGroupData.id, data).subscribe((data) => {
                     this.populateBoardData();
                     this.modalService.dismissAll();
                 });
@@ -90,10 +106,10 @@ export class GroupsComponent implements OnInit {
     // this is a mock service, so we need to get the data, update it and then send it back
     // in a real world scenario, we would just use un update service to the backend and it would change the status of the todo
     startProgress(card: Card): void {
-        this.mockService.GetGroup(this.currentBoardData.id).subscribe((data) => {
+        this.mockService.GetGroup(this.currentGroupData.id).subscribe((data) => {
             data.lists[0].cards = data.lists[0].cards.filter((c: Card) => c.id !== card.id);
             data.lists[1].cards.push(card)
-            this.mockService.UpdateGroup(this.currentBoardData.id, data).subscribe((data) => {
+            this.mockService.UpdateGroup(this.currentGroupData.id, data).subscribe((data) => {
                 this.populateBoardData();
             });
         });
@@ -102,10 +118,10 @@ export class GroupsComponent implements OnInit {
     // this is a mock service, so we need to get the data, update it and then send it back
     // in a real world scenario, we would just use un update service to the backend and it would change the status of the todo
     completeProgress(card: Card): void {
-        this.mockService.GetGroup(this.currentBoardData.id).subscribe((data) => {
+        this.mockService.GetGroup(this.currentGroupData.id).subscribe((data) => {
             data.lists[1].cards = data.lists[1].cards.filter((c: Card) => c.id !== card.id);
             data.lists[2].cards.push(card)
-            this.mockService.UpdateGroup(this.currentBoardData.id, data).subscribe((data) => {
+            this.mockService.UpdateGroup(this.currentGroupData.id, data).subscribe((data) => {
                 this.populateBoardData();
             });
         });
@@ -114,10 +130,10 @@ export class GroupsComponent implements OnInit {
     // this is a mock service, so we need to get the data, update it and then send it back
     // in a real world scenario, we would just use un update service to the backend and it would change the status of the todo
     deleteCard(card: Card, listItem: any): void {
-        this.mockService.GetGroup(this.currentBoardData.id).subscribe((data) => {
+        this.mockService.GetGroup(this.currentGroupData.id).subscribe((data) => {
             // @ts-ignore
             data.lists.find((l: any) => l.id === listItem.id)?.cards.splice(data.lists.find((l: any) => l.id === listItem.id)?.cards.findIndex((c: Card) => c.id === card.id));
-            this.mockService.UpdateGroup(this.currentBoardData.id, data).subscribe((data) => {
+            this.mockService.UpdateGroup(this.currentGroupData.id, data).subscribe((data) => {
                 this.populateBoardData();
             });
         });
@@ -126,11 +142,21 @@ export class GroupsComponent implements OnInit {
     // this is a mock service, so we need to get the data, update it and then send it back
     // in a real world scenario, we would just use un update service to the backend and it would change the status of the todo
     editCard(card: Card, listItemID: number): void {
-        this.mockService.GetGroup(this.currentBoardData.id).subscribe((data) => {
+        this.mockService.GetGroup(this.currentGroupData.id).subscribe((data) => {
             data.lists[listItemID].cards = data.lists[listItemID].cards.filter((c: Card) => c.id !== card.id);
-            this.mockService.UpdateGroup(this.currentBoardData.id, data).subscribe((data) => {
+            this.mockService.UpdateGroup(this.currentGroupData.id, data).subscribe((data) => {
                 this.populateBoardData();
             });
+        });
+    }
+
+    markFormGroupAsTouched(formGroup: FormGroup) {
+        Object.values(formGroup.controls).forEach(control => {
+            control.markAsTouched();
+
+            if (control instanceof FormGroup) {
+                this.markFormGroupAsTouched(control);
+            }
         });
     }
 

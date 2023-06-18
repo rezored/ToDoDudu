@@ -1,66 +1,72 @@
 <div class="side-menu-wrapper">
-    <h3>ToDoDudU</h3>
+    <a href="#" routerLink="/">
+        <img src="assets/images/tododudu logo.png" alt="ToDoDudU" class="w-100">
+    </a>
     <hr>
-    <div class="custom-badges-wrapper d-flex justify-content-between align-items-center">
-        <span class="d-flex position-relative" *ngFor="let badge of badgesObj">
-            <fa-icon [icon]="badge.icon" 
-            class="" [title]="badge.name"></fa-icon>
-            <span class="badge bg-primary rounded-pill position-absolute">{{ badge.value }}</span>
-        </span>
-    </div>
+    <ul
+        class="custom-badges-wrapper d-flex justify-content-between align-items-center p-0">
+        <li class="d-flex position-relative">
+            <fa-icon [icon]="faList" style="color: #70c8b1;"
+                class title="All ToDos"></fa-icon>
+            <span class="badge bg-primary rounded-pill position-absolute">{{
+                allCards }}</span>
+        </li>
+        <li class="d-flex position-relative">
+            <fa-icon [icon]="faClipboardList" style="color: #1e90ff;"
+                class title="To Do"></fa-icon>
+            <span class="badge bg-primary rounded-pill position-absolute">{{
+                toDoCards }}</span>
+        </li>
+        <li class="d-flex position-relative" style="color: #ffd34e;">
+            <fa-icon [icon]="faClipboard"
+                class title="In progress"></fa-icon>
+            <span class="badge bg-primary rounded-pill position-absolute">{{
+                inProgressCards }}</span>
+        </li>
+        <li class="d-flex position-relative" style="color: #148a2b;">
+            <fa-icon [icon]="faClipboardCheck"
+                class title="Done"></fa-icon>
+            <span class="badge bg-primary rounded-pill position-absolute">{{
+                doneCards }}</span>
+        </li>
+        <li class="d-flex position-relative" style="color: #ff1e1e;">
+            <fa-icon [icon]="faTriangleExclamation"
+                class title="Soon to expire"></fa-icon>
+            <span class="badge bg-primary rounded-pill position-absolute">{{
+                soonToExpireCards }}</span>
+        </li>
+    </ul>
     <hr>
-    <div class="custom-list-group">
-        <div class="custom-list-group-item d-flex justify-content-between align-items-center">
-            <a href="#" routerLink="/">
-                Home
-            </a>
-        </div>
-        <!-- <div class="custom-list-group-item d-flex justify-content-between align-items-center">
-            All
-            <span class="badge bg-primary rounded-pill">{{allCards}}</span>
-        </div> -->
-        <!-- <div class="custom-list-group-item d-flex justify-content-between align-items-center">
-            To Do
-            <span class="badge bg-primary rounded-pill">{{ toDoCards }}</span>
-        </div>
-        <div class="custom-list-group-item d-flex justify-content-between align-items-center">
-            In progress
-            <span class="badge bg-primary rounded-pill">{{ inProgressCards }}</span>
-        </div>
-        <div class="custom-list-group-item d-flex justify-content-between align-items-center">
-            Done
-            <span class="badge bg-primary rounded-pill">{{ doneCards }}</span>
-        </div>
-        <div class="custom-list-group-item d-flex justify-content-between align-items-center" title="expire within 3 days">
-            Soon to expire
-            <span class="badge bg-primary rounded-pill">{{ soonToExpireCards }}</span>
-        </div> -->
+    <ul class="custom-list-group p-0">
         <div class="custom-list-group-wrapper ">
-            <div class="outer-wrapper">
-                <div class="d-flex justify-content-between align-items-center" 
+            <div class="d-flex justify-content-between align-items-center"
                 *ngFor="let group of boardsData"
                 style="border-bottom: 1px solid #ebebeb; padding: 5px 10px;">
-                    <div class="single-item-group">
-                        <fa-icon [icon]="faFolder" class="me-2"></fa-icon>
-                        <a routerLink="{{'board/' + group.id}}" routerLinkActive="active" ariaCurrentWhenActive="page">
-                            <span>{{ group.name }}</span>
-                        </a>
-                    </div>
-                    <div class="button-wrapper d-flex gap-1">
-                        <button class="btn btn-primary btn-sm" (click)="addEditGroup(group)">
-                            <fa-icon [icon]="faEdit"></fa-icon>
-                        </button>
-                        <button class="btn btn-primary btn-sm" (click)="deleteGroup(group)">
-                            <fa-icon [icon]="faTrash"></fa-icon>
-                        </button>
-                    </div>
+                <div class="single-item-group">
+                    <fa-icon [icon]="faFolder" class="me-2"  style="color: #faaf18;"></fa-icon>
+                    <a routerLink="{{'board/' + group.id}}" style="color: #000;"
+                        routerLinkActive="active" ariaCurrentWhenActive="page">
+                        <span>{{ group.name }}</span>
+                    </a>
                 </div>
-                <div class="d-flex justify-content-between align-items-center" style="padding: 5px 10px;">
-                    <button class="btn btn-primary btn-sm w-100" (click)="addEditGroup()">
-                        <fa-icon [icon]="faAdd" class="me-2"></fa-icon>Add new group
+                <div class="button-wrapper d-flex gap-1">
+                    <button class="btn btn-primary btn-sm"
+                        (click)="addEditGroup(group)">
+                        <fa-icon [icon]="faEdit"></fa-icon>
+                    </button>
+                    <button class="btn btn-primary btn-sm"
+                        (click)="deleteGroup(group)">
+                        <fa-icon [icon]="faTrash"></fa-icon>
                     </button>
                 </div>
             </div>
+            <div class="d-flex justify-content-between align-items-center"
+                style="padding: 5px 10px;">
+                <button class="btn btn-primary btn-sm w-100"
+                    (click)="addEditGroup()">
+                    <fa-icon [icon]="faAdd" class="me-2"></fa-icon>Add new group
+                </button>
+            </div>
         </div>
-    </div>
+    </ul>
 </div>

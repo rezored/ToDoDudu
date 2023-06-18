@@ -1,26 +1,26 @@
-<div class="d-flex justify-content-between">
-    <div class="group-description-wrapper">
-        <h3>{{currentBoardData?.name}}</h3>
-        <h5>{{currentBoardData?.description}}</h5>
-    </div>
-    <div>
+<dl class="d-flex justify-content-between">
+    <dt class="group-description-wrapper">
+        <h3>{{currentGroupData?.name}}</h3>
+        <h5>{{currentGroupData?.description}}</h5>
+    </dt>
+    <dd>
         <button type="button" class="btn btn-primary"
             (click)="openAddTodoModal(content)">
             <fa-icon [icon]="faPlus"></fa-icon> Add new ToDo
         </button>
-    </div>
-</div>
+    </dd>
+</dl>
 <hr>
-<div class="d-flex gap-1 ">
-    <div class="w-50" *ngFor="let listItems of currentBoardData?.lists">
-        <div class="card mb-3">
-            <div class="d-flex justify-content-center p-2">
+<section class="d-flex gap-1 ">
+    <article class="w-50" *ngFor="let listItems of currentGroupData?.lists">
+        <header class="card mb-3">
+            <div class="d-flex justify-content-center p-2" [ngStyle]="{'background-color': listItems.color}">
                 <h3>{{listItems.name}}</h3>
             </div>
-        </div>
-        <div class="card mb-2" *ngFor="let card of listItems.cards">
-            <div class="card-header">
-                <div class="d-flex justify-content-between">
+        </header>
+        <dl class="card mb-2" *ngFor="let card of listItems.cards">
+            <header class="card-header">
+                <dt class="d-flex justify-content-between">
                     <span>
                         <strong>Name: </strong>{{card.name}}
                     </span>
@@ -44,38 +44,46 @@
                             </div>
                         </div>
                     </span>
-                </div>
-            </div>
-            <div class="card-body" (click)="expandCard(card)">
-                <div>
-                    <small><strong>Due date: </strong>{{card.dueDate}}</small>
-                    <br>
-                    <span *ngIf="card.isExpanded">
-                        <small><strong>Description: </strong>{{card.description}}</small>
-                    </span>
-                </div>
-            </div>
-            <div class="card-footer">
-                <div class="d-flex justify-content-end"
+                </dt>
+            </header>
+            <main class="card-body" (click)="expandCard(card)">
+                <small><strong>Due date: </strong>{{card.dueDate}}</small>
+                <br>
+                <span *ngIf="card.isExpanded">
+                    <small><strong>Description: </strong>{{card.description}}</small>
+                </span>
+            </main>
+            <footer class="card-footer">
+                <button
+                    class="d-flex justify-content-end border-0 background-transparent float-end"
                     style="padding: 5px; cursor: pointer;"
                     *ngIf="listItems.name === 'To Do'">
-                    <div class
+                    <span class="custom-button"
                         (click)="startProgress(card)" title="Start progress">
                         <fa-icon [icon]="faPlay"></fa-icon>
-                    </div>
-                </div>
-                <div class="d-flex justify-content-end"
+                    </span>
+                </button>
+                <button
+                    class="d-flex justify-content-end border-0 background-transparent float-end"
                     style="padding: 5px; cursor: pointer;"
                     *ngIf="listItems.name === 'In Progress'">
-                    <div class
+                    <span class="custom-button"
+                        (click)="completeProgress(card)" title="Finish">
+                        <fa-icon [icon]="faCheck"></fa-icon>                    </span>
+                </button>
+                <button
+                    class="d-flex justify-content-end border-0 background-transparent float-end"
+                    style="padding: 5px; cursor: pointer;"
+                    *ngIf="listItems.name === 'Done'">
+                    <span
                         (click)="completeProgress(card)" title="Finish">
                         <fa-icon [icon]="faCheck"></fa-icon>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+                    </span>
+                </button>
+            </footer>
+        </dl>
+    </article>
+</section>
 
 <ng-template #content let-modal>
     <header class="modal-header">
@@ -83,22 +91,27 @@
         <button type="button" class="btn-close" aria-label="Close"
             (click)="modal.dismiss('Cross click')"></button>
     </header>
-    <form [formGroup]="todoForm" (submit)="createTodo(); modal.dismiss()">
+    <form [formGroup]="todoForm" (submit)="createTodo()">
         <div class="modal-body">
             <div class="form-group">
                 <label for="name">Name:</label>
                 <input type="text" id="name" formControlName="name"
+                    name="name"
                     class="form-control" required>
+                <app-form-control-error-handler [control]="name"></app-form-control-error-handler>
             </div>
             <div class="form-group">
                 <label for="description">Description:</label>
                 <textarea id="description" formControlName="description"
                     class="form-control" required></textarea>
+                <app-form-control-error-handler [control]="description"></app-form-control-error-handler>
             </div>
             <div class="form-group">
                 <label for="dueDate">Due Date:</label>
                 <input type="date" id="dueDate" formControlName="dueDate"
                     class="form-control" required>
+                <app-form-control-error-handler [control]="dueDate"></app-form-control-error-handler>
+
             </div>
         </div>
         <footer class="modal-footer">

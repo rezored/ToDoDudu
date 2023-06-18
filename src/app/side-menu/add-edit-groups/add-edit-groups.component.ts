@@ -14,8 +14,8 @@ import { MockService } from 'src/app/api/services/mock.service';
 export class AddEditGroupsComponent {
     @Input() groupToBeEdited!: GroupDTO;
     @Input() action!: string;
-
-    @Output() reloadGroups!: Function;
+    listControls: any;
+    showListError: boolean = false;
 
     addEditGroups!: FormGroup<any>;
     // this is the prepopulated data for the lists
@@ -24,16 +24,19 @@ export class AddEditGroupsComponent {
         {
             "id": "1",
             "name": "To Do",
+            "color": "#1e90ff",
             "cards": []
         },
         {
             "id": "2",
             "name": "In Progress",
+            "color": "#ffd34e",
             "cards": []
         },
         {
             "id": "3",
             "name": "Done",
+            "color": "#148a2b",
             "cards": []
         }
     ];
@@ -72,14 +75,13 @@ export class AddEditGroupsComponent {
             lists: new FormArray([])
         });
     }
-    listControls: any;
 
     populateForm(values?: any) {
         const valueArray = this.addEditGroups.get('lists') as FormArray;
         if (values) {
             valueArray.clear();
             values.forEach((value: any) => {
-                valueArray.push(new FormControl(value.name, Validators.required));
+                valueArray.push(new FormControl(value.name, [Validators.required]));
             })
         } else {
             this.listControls = valueArray.controls;
@@ -98,6 +100,11 @@ export class AddEditGroupsComponent {
     }
 
     onSubmit() {
+        if (this.addEditGroups.invalid) {
+            this.markFormGroupAsTouched(this.addEditGroups);
+            return;
+        }
+
         if (this.addEditGroups.valid) {
             let data = this.addEditGroups.value;
             data.lists = data.lists.map((list: any) => {
@@ -117,8 +124,25 @@ export class AddEditGroupsComponent {
                     this.activeOffcanvas.close('success');
                 });
             }
-            this.reloadGroups();
         }
+    }
+
+    markFormGroupAsTouched(formGroup: FormGroup) {
+        Object.values(formGroup.controls).forEach(control => {
+            control.markAsTouched();
+            if (control.value) {
+                    control.value.forEach((value: any) => {
+                        if (value === null) {   
+                            this.showListError = true;
+                        }
+                    });
+            }
+            
+
+            if (control instanceof FormGroup) {
+                this.markFormGroupAsTouched(control);
+            }
+        });
     }
 
     close() {

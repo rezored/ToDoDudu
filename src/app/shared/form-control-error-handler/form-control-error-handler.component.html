@@ -1,0 +1,8 @@
+<span *ngIf="control?.invalid && (control?.dirty || control?.touched) && control?.errors" class="invalid-feedback" style="display: block;">
+    <span *ngIf="control?.errors?.['required']" class="custom-error">
+        The field is required
+    </span>
+    <span *ngIf="control?.errors?.['invalid']" class="custom-error">
+        The field is invalid
+    </span>
+</span>

@@ -1,63 +1,60 @@
- <div class="offcanvas-header">
+ <header class="offcanvas-header">
 	<h4 class="offcanvas-title" id="offcanvas-basic-title">Groups data</h4>
 	<button type="button" class="btn-close" aria-label="Close" (click)="close()"></button>
-</div>
-<div class="offcanvas-body">
+ </header>
+<main class="offcanvas-body">
 	<form [formGroup]="addEditGroups" (ngSubmit)="onSubmit()">
 		<div class="mb-3">
-			<label for="name">Group name</label>
-			<div class="input-group">
-				<input
-					id="name"
-					name="name"
-					type="text"
-					class="form-control"
-					[class.is-invalid]="name.invalid && (name.dirty || name.touched)"
-					placeholder="Group name"
-					formControlName="name"
-					required />
-				<!--<app-form-control-error-handler
-						[control]="groypName"
-					></app-form-control-error-handler> -->
-			</div>
+			<label class="form-label" for="name">Group name</label>
+			<input
+				id="name"
+				name="name"
+				type="text"
+				class="form-control"
+				[class.is-invalid]="name.invalid && (name.dirty || name.touched)"
+				placeholder="Group name"
+				formControlName="name"
+				required />
+			<app-form-control-error-handler [control]="name"></app-form-control-error-handler>
 		</div>
 		<div class="mb-3">
 			<label for="description">Group description</label>
-			<div class="input-group">
-				<input
-					id="groypDescription"
-					name="description"
-					type="text"
-					class="form-control"
-					[class.is-invalid]="description.invalid && (description.dirty || description.touched)"
-					placeholder="GroupDTO description"
-					formControlName="description"
-					required />
-				<!--<app-form-control-error-handler
-						[control]="groypName"
-					></app-form-control-error-handler> -->
-			</div>
+			<input
+				id="groypDescription"
+				name="description"
+				type="text"
+				class="form-control"
+				[class.is-invalid]="description.invalid && (description.dirty || description.touched)"
+				placeholder="description"
+				formControlName="description"
+				required />
+			<app-form-control-error-handler [control]="description"></app-form-control-error-handler>
 		</div>
 		<div formArrayName="lists">
 			<label class="form-label fw-bold" for="value">Lists:</label>
 			<div class="mb-3 d-flex" *ngFor="let list of listControls; index as i">
-				<span class="w-100">
-					<input
-						type="text"
-						class="form-control"
-						placeholder="List"
-						[id]="'value-' + i"
-						[formControlName]="i"
-						required />
-				</span>
+				<!-- <span class="w-100"> -->
+				<input
+				[style.borderColor]="showListError ? 'red' : ''"
+					type="text"
+					class="form-control"
+					placeholder="List"
+					[id]="'value-' + i"
+					[formControlName]="i"
+					required />
+				<!-- </span> -->
 				<button type="button" class="btn btn-outline-dark"
 					(click)="removeClaimValue(i)">-</button>
 			</div>
-			<button type="button" class="btn custom-button w-100"
-				(click)="addClaimValue()">+ Добави нова стойност</button>
+			<div class="invalid-feedback" *ngIf="showListError" style="display: block;">
+				Not all lists are filled
+			</div>
+			<button type="button" class="btn custom-button w-100 mb-3"
+				(click)="addClaimValue()">+ Add new list</button>
 		</div>
+
 		<div class="text-end">
 			<button type="submit" class="btn btn-outline-dark">Save</button>
 		</div>
 	</form>
-</div>
+</main>

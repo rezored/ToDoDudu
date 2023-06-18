@@ -65,14 +65,14 @@ export class MockService {
     }
 
     // Error handling
-    errorHandler(error: { error: { message: string; }; status: any; message: any; }) {
+    errorHandler(outcome: { error: { message: string; }; status: any; message: any; }) {
         let errorMessage = '';
-        if (error.error instanceof ErrorEvent) {
+        if (outcome.error instanceof ErrorEvent) {
             // Get client-side error
-            errorMessage = error.error.message;
+            errorMessage = outcome.error.message;
         } else {
             // Get server-side error
-            errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+            errorMessage = `Error Code: ${outcome.status}\nMessage: ${outcome.message}`;
         }
         console.log(errorMessage);
         return throwError(() => {

@@ -1,26 +1,17 @@
 import {
     Component,
-    ChangeDetectionStrategy,
-    ViewChild,
-    TemplateRef,
+    ChangeDetectionStrategy
 } from '@angular/core';
 import {
     startOfDay,
-    endOfDay,
     subDays,
-    addDays,
-    endOfMonth,
     isSameDay,
     isSameMonth,
-    addHours,
-    parseISO,
+    parseISO
 } from 'date-fns';
 import { Subject } from 'rxjs';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {
     CalendarEvent,
-    CalendarEventAction,
-    CalendarEventTimesChangedEvent,
     CalendarView,
 } from 'angular-calendar';
 import { EventColor } from 'calendar-utils';
@@ -28,16 +19,16 @@ import { MockService } from '../api/services/mock.service';
 import { GroupDTO } from '../api/models/group-dto';
 
 const colors: Record<string, EventColor> = {
-    red: {
-        primary: '#ad2121',
-        secondary: '#FAE3E3',
+    green: {
+        primary: '#148a2b',
+        secondary: '#ace7b8',
     },
     blue: {
-        primary: '#1e90ff',
+        primary: '#3a80c8',
         secondary: '#D1E8FF',
     },
     yellow: {
-        primary: '#e3bc08',
+        primary: '#ffd34e',
         secondary: '#FDF1BA',
     },
 };
@@ -54,36 +45,38 @@ export class CalendarComponent {
     viewDate: Date = new Date();
     events: CalendarEvent[] = [];
     refresh = new Subject<void>();
+    start: Date = subDays(startOfDay(new Date()), 1);
+    end: Date = new Date();
+    activeDayIsOpen: boolean = true;
 
     constructor(
-        private modal: NgbModal,
         private mockService: MockService
     ) { }
 
-    start: Date = subDays(startOfDay(new Date()), 1);
-    end: Date = new Date();
-
-    // make an array that will return a specific color for each type of card 
-    
-
-    // set a random color from the colors object
-    getColor(): EventColor {
-        const colorsKeyArray = Object.keys(colors);
-        const randomColorsKey = colorsKeyArray[Math.floor(Math.random() * colorsKeyArray.length)];
-        return colors[randomColorsKey];
+    setColorByTask(listName: string): EventColor {
+        switch (listName) {
+            case 'To Do':
+                return colors['blue'];
+            case 'In Progress':
+                return colors['yellow'];
+            case 'Done':
+                return colors['green'];
+            default:
+                return colors['blue'];
+        }
     }
 
     ngOnInit() {
         this.mockService.GetGroups().subscribe((data: GroupDTO[]) => {
-            data.forEach((board: any) => {
+            let boardsData: GroupDTO[] = data;
+            boardsData.map((board: any) => {
                 board.lists.forEach((list: any) => {
                     list.cards.forEach((card: any) => {
                         this.events.push({
                             start: parseISO(card.createdDate),
                             end: parseISO(card.dueDate),
                             title: `${list.name} - ${card.name}`,
-                            color: this.getColor(),
-                            actions: this.actions,
+                            color: this.setColorByTask(list.name),
                             allDay: true,
                             resizable: {
                                 beforeStart: true,
@@ -93,91 +86,11 @@ export class CalendarComponent {
                         });
                     });
                 });
-                // this.events.push({
-                //     start: group.,
-                //     end: group.end_date,
-                //     title: group.name,
-                //     color: { ...colors['red'] },
-                //     actions: this.actions,
-                //     allDay: true,
-                //     resizable: {
-                //         beforeStart: true,
-                //         afterEnd: true,
-                //     },
-                //     draggable: true,
-                // });
             });
             this.refresh.next();
         });
 
     }
-
-    populateData() {
-
-    }
-
-
-    actions: CalendarEventAction[] = [
-        {
-            label: '<i class="fas fa-fw fa-pencil-alt"></i>',
-            a11yLabel: 'Edit',
-            onClick: ({ event }: { event: CalendarEvent }): void => {
-                // this.handleEvent('Edited', event);
-            },
-        },
-        {
-            label: '<i class="fas fa-fw fa-trash-alt"></i>',
-            a11yLabel: 'Delete',
-            onClick: ({ event }: { event: CalendarEvent }): void => {
-                this.events = this.events.filter((iEvent) => iEvent !== event);
-                // this.handleEvent('Deleted', event);
-            },
-        },
-    ];
-
-
-    // events: CalendarEvent[] = [
-    //     {
-    //         start: subDays(startOfDay(new Date()), 1),
-    //         end: addDays(new Date(), 1),
-    //         title: 'A 3 day event',
-    //         color: { ...colors['red'] },
-    //         actions: this.actions,
-    //         allDay: true,
-    //         resizable: {
-    //             beforeStart: true,
-    //             afterEnd: true,
-    //         },
-    //         draggable: true,
-    //     },
-    //     {
-    //         start: startOfDay(new Date()),
-    //         title: 'An event with no end date',
-    //         color: { ...colors['yellow'] },
-    //         actions: this.actions,
-    //     },
-    //     {
-    //         start: subDays(endOfMonth(new Date()), 3),
-    //         end: addDays(endOfMonth(new Date()), 3),
-    //         title: 'A long event that spans 2 months',
-    //         color: { ...colors['blue'] },
-    //         allDay: true,
-    //     },
-    //     {
-    //         start: addHours(startOfDay(new Date()), 2),
-    //         end: addHours(new Date(), 2),
-    //         title: 'A draggable and resizable event',
-    //         color: { ...colors['yellow'] },
-    //         actions: this.actions,
-    //         resizable: {
-    //             beforeStart: true,
-    //             afterEnd: true,
-    //         },
-    //         draggable: true,
-    //     },
-    // ];
-
-    activeDayIsOpen: boolean = true;
 
     dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
         if (isSameMonth(date, this.viewDate)) {
@@ -191,57 +104,5 @@ export class CalendarComponent {
             }
             this.viewDate = date;
         }
-    }
-
-    eventTimesChanged({
-        event,
-        newStart,
-        newEnd,
-    }: CalendarEventTimesChangedEvent): void {
-        this.events = this.events.map((iEvent) => {
-            if (iEvent === event) {
-                return {
-                    ...event,
-                    start: newStart,
-                    end: newEnd,
-                };
-            }
-            return iEvent;
-        });
-        // this.handleEvent('Dropped or resized', event);
-    }
-
-    // handleEvent(action: string, event: CalendarEvent): void {
-    //     this.modalData = { event, action };
-    //     this.modal.open(this.modalContent, { size: 'lg' });
-    // }
-
-    addEvent(): void {
-        this.events = [
-            ...this.events,
-            {
-                title: 'New event',
-                start: startOfDay(new Date()),
-                end: endOfDay(new Date()),
-                color: colors['red'],
-                draggable: true,
-                resizable: {
-                    beforeStart: true,
-                    afterEnd: true,
-                },
-            },
-        ];
-    }
-
-    deleteEvent(eventToDelete: CalendarEvent) {
-        this.events = this.events.filter((event) => event !== eventToDelete);
-    }
-
-    setView(view: CalendarView) {
-        this.view = view;
-    }
-
-    closeOpenMonthViewDay() {
-        this.activeDayIsOpen = false;
     }
 }
