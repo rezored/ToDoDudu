@@ -22,5 +22,6 @@ On the side menu:
 - overall design :)
 
 # What is comming next
+- untilDestroyed pipe to prevent memory leak
 - API
 - total components rework to remove the ts and use the API response code 
